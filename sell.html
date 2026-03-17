@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sell Book | BookMart</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+              url("https://images.unsplash.com/photo-1512820790803-83ca734da794");
+
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+
+  display:flex;
+  justify-content:center;
+  padding:40px;
+}
+.seller-container{
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(5px);
+  padding:40px;
+  width:800px;
+  max-width:100%;
+  border-radius:20px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.08);
+}
+
+h2{
+  text-align:center;
+  margin-bottom:30px;
+  font-size:28px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+input, select, textarea{
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ddd;
+  font-size:14px;
+  width:100%;
+  transition:0.2s;
+}
+
+input:focus, select:focus, textarea:focus{
+  border-color:#1f6feb;
+  outline:none;
+}
+
+textarea{
+  margin-top:15px;
+  min-height:120px;
+  resize:none;
+}
+
+label{
+  margin-top:15px;
+  display:block;
+  font-weight:600;
+}
+
+.image-preview{
+  margin-top:10px;
+  width:150px;
+  height:200px;
+  border-radius:10px;
+  object-fit:cover;
+  display:none;
+  border:1px solid #ddd;
+}
+
+button{
+  margin-top:25px;
+  padding:15px;
+  width:100%;
+  border:none;
+  border-radius:12px;
+  background:#1f6feb;
+  color:white;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#0d47c2;
+  transform:translateY(-2px);
+}
+
+@media(max-width:700px){
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="seller-container">
+
+<h2>📚 List Your Book for Sale</h2>
+
+<form id="sellForm">
+
+<div class="form-grid">
+
+<input type="text" name="title" placeholder="Book Title" required>
+<input type="text" name="author" placeholder="Author Name" required>
+
+<input type="number" name="price" placeholder="Price (₹)" required>
+<input type="number" name="stock" placeholder="Available Stock" required>
+
+<select name="category">
+  <option value="academic">Academic</option>
+  <option value="fiction">Fiction</option>
+  <option value="comics">Comics</option>
+  <option value="others">Others</option>
+</select>
+
+<select name="condition">
+  <option value="new">New</option>
+  <option value="used">Used</option>
+</select>
+
+</div>
+
+<textarea name="description" placeholder="Write Book Description..." required></textarea>
+
+<label>Upload Cover Image</label>
+<input type="text" name="image" placeholder="Enter Image URL" required>
+
+<img id="preview" class="image-preview">
+
+<button type="submit">🚀 Publish Book</button>
+
+</form>
+
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script>
+<script src="js/sell.js"></script>
+
+</body>
+</html>
+
+

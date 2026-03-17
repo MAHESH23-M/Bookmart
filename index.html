@@ -1,0 +1,406 @@
+<!doctype html> 
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BookMart — Buy & Sell Used Books</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#fff; --muted:#6b7280; --accent:#1f6feb; --accent-2:#0ea5a4;
+  --shadow:0 6px 18px rgba(15,23,42,0.08); --max-width:1200px; --gap:18px;
+  font-family:Inter, system-ui, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);padding:28px 20px;display:flex;justify-content:center}
+.container{width:100%;max-width:var(--max-width)}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.searchbar{display:flex;gap:12px;align-items:center;background:var(--card);padding:10px;border-radius:14px;box-shadow:var(--shadow);width:64%;min-width:320px}
+.searchbar input{flex:1;border:0;outline:none;font-size:15px}
+.btn{background:var(--accent);border:0;color:#fff;padding:9px 12px;border-radius:10px;cursor:pointer}
+.controls{display:flex;gap:12px;align-items:center}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid #e6e9ef;border-radius:999px;padding:6px 10px;text-decoration:none;color:inherit}
+.user-chip .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.user-chip .name{font-size:14px;color:#0f172a;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logout-btn{padding:6px 10px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;cursor:pointer}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:var(--gap)}
+aside{background:var(--card);padding:16px;border-radius:12px;box-shadow:var(--shadow);height:fit-content}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.card{background:var(--card);border-radius:12px;padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;transition:transform .16s ease}
+.card:hover{transform:translateY(-6px)}
+.cover{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;background:#f3f4f6}
+.title{font-weight:600;font-size:15px}
+.author{color:var(--muted);font-size:13px}
+.price{font-weight:700;color:var(--accent)}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.searchbar{width:100%}}
+body{
+  background: 
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url("https://images.unsplash.com/photo-1507842217343-583bb7270b66") 
+    no-repeat center center fixed !important;
+
+  background-size: cover !important;
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden>BM</div>
+        <div>
+          <h1 style="margin:0;font-size:18px;color:#facc15;">
+BookMart
+</h1>
+          <p style="margin:0;color:var(--muted);font-size:13px">Buy, sell & swap used books near you</p>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="searchbar" role="search" aria-label="Search books">
+          <input id="searchInput" type="search" placeholder="Search by title, author, keyword..." aria-label="Search books" />
+          <button id="searchBtn" class="btn">Search</button>
+        </div>
+
+        <div class="controls">
+          <select id="sortSelect" aria-label="Sort by">
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+          </select>
+
+          <a id="sellBtn" href="sell.html"
+             style="
+             padding:8px 14px;
+             background:#000;
+             color:white;
+             border-radius:8px;
+             text-decoration:none;
+             font-weight:600;">
+             📚 Sell Book
+          </a>
+
+          <!-- Login link shown when not signed in -->
+          <a id="loginRegisterLink" href="login.html">Login / Register</a>
+
+          <!-- Profile chip shown after login -->
+          <a id="userProfileChip" class="user-chip" href="profile.html" style="display:none;" title="Open profile">
+            <div id="userAvatar" class="avatar">U</div>
+            <div id="userName" class="name">User</div>
+          </a>
+
+          <!-- Logout button only visible after login -->
+          <button id="logoutBtn" class="logout-btn" style="display:none">Logout</button>
+
+          <!-- Cart always visible -->
+          <a id="cartLink" class="user-chip" href="cart.html" style="text-decoration:none">
+            🛒 <span style="margin-left:8px">Cart</span>
+            <span id="cartCount" style="margin-left:8px;background:#ef4444;color:#fff;padding:2px 7px;border-radius:999px;font-weight:700">0</span>
+          </a>
+          <a href="wishlist.html" class="user-chip">
+  ❤️ Wishlist
+</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside aria-label="Filters">
+        <h3 style="margin-top:0">Filters</h3>
+        <label class="muted">Price (max)</label><br>
+        <input id="priceMax" type="number" placeholder="e.g. 500" style="padding:8px;border-radius:8px;border:1px solid #e6e9ef;width:100%;margin-top:8px" />
+      </aside>
+
+      <main>
+        <section style="margin-bottom:18px">
+          <h2 style="margin:0 0 6px 0">Latest listings</h2>
+          <p id="resultsInfo" style="color:var(--muted)">Showing 0 results</p>
+        </section>
+
+        <section>
+          <div id="listingsGrid" class="grid" aria-live="polite"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Firebase (compat libs used earlier in your project) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- Your firebase config file (must define firebase, then set auth and db) -->
+  <script src="js/firebase.js"></script>
+  <!-- optional: your auth helpers if you have them -->
+  <script src="js/auth.js"></script>
+
+  <script>
+ 
+ 
+  const grid = document.getElementById("listingsGrid");
+  const resultsInfo = document.getElementById("resultsInfo");
+  const searchInput = document.getElementById("searchInput");
+  const priceMax = document.getElementById("priceMax");
+  const sortSelect = document.getElementById("sortSelect");
+  const searchBtn = document.getElementById("searchBtn");
+
+  let allBooks = [];
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  function createdAtToMillis(book) {
+    if (book && book.createdAt && typeof book.createdAt.toMillis === "function") {
+      return book.createdAt.toMillis();
+    }
+    return 0;
+  }
+
+  function renderBooks(books) {
+  grid.innerHTML = "";
+
+  if (!books.length) {
+    resultsInfo.innerText = "Showing 0 results";
+    grid.innerHTML = '<div style="padding:20px;color:var(--muted)">No books found.</div>';
+    return;
+  }
+
+  resultsInfo.innerText = `Showing ${books.length} result${books.length > 1 ? "s" : ""}`;
+
+  books.forEach((book) => {
+    const title = escapeHtml(book.title || "Untitled");
+    const author = escapeHtml(book.author || "Unknown");
+    const image = escapeHtml(book.image || "");
+    const price = Number(book.price) || 0;
+    const source = encodeURIComponent(book.source || "books");
+    const id = encodeURIComponent(book.id || "");
+
+    grid.innerHTML += `
+      <div class="card" tabindex="0" role="button" data-id="${id}" data-source="${source}">
+        <img class="cover" src="${image}" alt="${title} cover">
+        <div class="title">${title}</div>
+        <div class="author">by ${author}</div>
+        <div class="price">INR ${price}</div>
+      </div>
+    `;
+  });
+
+  grid.querySelectorAll(".card").forEach((card) => {
+    const targetId = card.dataset.id;
+    const targetSource = card.dataset.source;
+    const url = `product.html?id=${targetId}&source=${targetSource}`;
+
+    card.addEventListener("click", () => {
+      window.location.href = url;
+    });
+
+    card.addEventListener("keypress", (event) => {
+      if (event.key === "Enter") {
+        window.location.href = url;
+      }
+    });
+  });
+}
+
+    grid.querySelectorAll(".card").forEach((card) => {
+      const targetId = card.dataset.id;
+      const targetSource = card.dataset.source;
+      const url = `product.html?id=${targetId}&source=${targetSource}`;
+      card.addEventListener("click", () => {
+        window.location.href = url;
+      });
+
+      card.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+          window.location.href = url;
+        }
+      });
+    });
+  
+
+  function applyFilters() {
+    const searchTerm = (searchInput.value || "").trim().toLowerCase();
+    const maxPrice = Number(priceMax.value) || null;
+    const sortBy = sortSelect.value;
+
+    let filtered = allBooks.filter((book) => {
+      const title = String(book.title || "").toLowerCase();
+      const author = String(book.author || "").toLowerCase();
+      const matchesSearch = !searchTerm || title.includes(searchTerm) || author.includes(searchTerm);
+      const matchesPrice = !maxPrice || (Number(book.price) || 0) <= maxPrice;
+      return matchesSearch && matchesPrice;
+    });
+
+    if (sortBy === "price-asc") {
+      filtered.sort((a, b) => (Number(a.price) || 0) - (Number(b.price) || 0));
+    } else if (sortBy === "price-desc") {
+      filtered.sort((a, b) => (Number(b.price) || 0) - (Number(a.price) || 0));
+    } else {
+      // "Newest" sort.
+      filtered.sort((a, b) => createdAtToMillis(b) - createdAtToMillis(a));
+    }
+
+    renderBooks(filtered);
+  }
+
+  async function fetchBooksFromCollection(collectionName) {
+    try {
+      const snapshot = await db.collection(collectionName).get();
+      return {
+        ok: true,
+        items: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data(), _source: collectionName }))
+      };
+    } catch (error) {
+      console.warn(`Could not read ${collectionName}:`, error);
+      return { ok: false, items: [], error };
+    }
+  }
+
+  function normalizeBook(rawBook) {
+    return {
+      id: rawBook.id || "",
+      title: rawBook.title || rawBook.name || "Untitled",
+      author: rawBook.author || rawBook.writer || "Unknown",
+      price: Number(rawBook.price) || 0,
+      image: rawBook.image || rawBook.img || "",
+      createdAt: rawBook.createdAt || null,
+      category: rawBook.category || "others",
+      stock: Number(rawBook.stock) || 0,
+      description: rawBook.description || rawBook.desc || "",
+      source: rawBook._source || "books"
+    };
+  }
+
+  async function loadBooks() {
+    resultsInfo.innerText = "Loading listings...";
+    grid.innerHTML = '<div style="padding:20px;color:var(--muted)">Loading books...</div>';
+    console.log("Books loaded:", allBooks);
+    const [booksCollection, productsCollection] = await Promise.all([
+      fetchBooksFromCollection("books"),
+      fetchBooksFromCollection("products")
+    ]);
+
+    const merged = [...booksCollection.items, ...productsCollection.items].map(normalizeBook);
+
+    // Remove duplicates by id+title in case the same data exists in both collections.
+    const uniqueMap = new Map();
+    merged.forEach((book) => {
+      const key = `${book.id}::${String(book.title).toLowerCase()}`;
+      if (!uniqueMap.has(key)) uniqueMap.set(key, book);
+    });
+
+    allBooks = Array.from(uniqueMap.values());
+
+    if (!booksCollection.ok && !productsCollection.ok) {
+      resultsInfo.innerText = "Could not load books";
+      grid.innerHTML =
+        '<div style="padding:20px;color:var(--muted)">Read blocked by Firestore rules. Allow read for books/products.</div>';
+      return;
+    }
+
+    if (!allBooks.length) {
+      resultsInfo.innerText = "Showing 0 results";
+      grid.innerHTML = '<div style="padding:20px;color:var(--muted)">No listings found yet.</div>';
+      return;
+    }
+
+    applyFilters();
+  }
+
+  searchInput.addEventListener("input", applyFilters);
+  priceMax.addEventListener("input", applyFilters);
+  sortSelect.addEventListener("change", applyFilters);
+  searchBtn.addEventListener("click", applyFilters);
+
+  loadBooks();
+
+  // ---------- CART count from localStorage ----------
+  function updateCartCount(){
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const count = cart.reduce((s,i)=>s+(i.quantity||0),0);
+    document.getElementById('cartCount').innerText = count;
+  }
+  updateCartCount();
+
+  // Update cart count when storage changes (another tab)
+  window.addEventListener('storage', e => { if(e.key === 'cart') updateCartCount(); });
+
+  // ---------- AUTH: show profile chip after login ----------
+  // Assumes your js/firebase.js sets firebase, and auth = firebase.auth() and db = firebase.firestore()
+  // If you named them differently, change the variable names below.
+  (function setupAuthUI(){
+    // protect against missing firebase objects
+    if(typeof firebase === 'undefined' || typeof firebase.auth === 'undefined'){
+      console.warn('Firebase not initialized (firebase/auth missing). Profile UI will not update.');
+      return;
+    }
+    const auth = firebase.auth();
+    
+
+    const loginLink = document.getElementById('loginRegisterLink');
+    const profileChip = document.getElementById('userProfileChip');
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // logout click
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        await auth.signOut();
+        // UI will be updated by onAuthStateChanged below
+      } catch(err){ console.error('Sign out error', err) }
+    });
+
+    auth.onAuthStateChanged(async (user) => {
+      if(user){
+        // Retry listing fetch after auth is restored (fixes first-load permission timing issues).
+        loadBooks();
+
+        // hide login link, show profile chip & logout
+        loginLink.style.display = 'none';
+        profileChip.style.display = 'flex';
+        logoutBtn.style.display = 'inline-block';
+
+        // try to read name from Firestore users collection (if you store it)
+        let displayName = user.displayName || '';
+        let displayEmail = user.email || '';
+        try {
+          const doc = await db.collection('users').doc(user.uid).get();
+          if(doc.exists){
+            const data = doc.data() || {};
+            displayName = data.name || displayName;
+            displayEmail = data.email || displayEmail;
+          } else {
+            // optional: create a minimal doc for future use
+            await db.collection('users').doc(user.uid).set({
+              name: displayName || '',
+              email: displayEmail || ''
+            }, { merge: true });
+          }
+        } catch(err){
+          console.warn('Could not read users doc:', err);
+        }
+
+        // set UI
+        const nameToShow = displayName || (displayEmail ? displayEmail.split('@')[0] : 'User');
+        userName.innerText = nameToShow;
+        userAvatar.innerText = (nameToShow.charAt(0) || 'U').toUpperCase();
+
+        // clicking the chip goes to profile page (already href="profile.html")
+        // If you want to pass uid, you could set profileChip.href = profile.html?uid=${user.uid};
+      } else {
+        // not logged in
+        loginLink.style.display = 'inline';
+        profileChip.style.display = 'none';
+        logoutBtn.style.display = 'none';
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

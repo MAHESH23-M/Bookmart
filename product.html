@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Details | BookMart</title>
+
+<style>
+/* ---------- Background Override ---------- */
+body{
+  background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url("https://images.unsplash.com/photo-1524995997946-a1c2e315a42f")
+    no-repeat center center fixed !important;
+
+  background-size: cover !important;
+}
+.container{
+  max-width:1100px;
+  width:100%;
+}
+
+/* PRODUCT SECTION */
+.product-section{
+  display:grid;
+  grid-template-columns:350px 1fr 280px;
+  gap:40px;
+  background:#ffffff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* IMAGE */
+.image-wrapper{
+  overflow:hidden;
+  border-radius:12px;
+}
+
+.image-wrapper img{
+  width:100%;
+  transition:0.4s;
+  cursor:zoom-in;
+}
+
+.image-wrapper:hover img{
+  transform:scale(1.2);
+}
+
+/* BADGE */
+.badge{
+  display:inline-block;
+  background:#000;
+  color:#fff;
+  padding:4px 10px;
+  font-size:13px;
+  border-radius:6px;
+  margin-bottom:10px;
+}
+
+/* PRICE */
+.price{
+  font-size:26px;
+  font-weight:bold;
+  color:#000;
+}
+
+.old-price{
+  text-decoration:line-through;
+  color:#777;
+  margin-left:8px;
+  font-size:18px;
+}
+
+.stars{
+  color:#facc15;
+  margin:10px 0;
+}
+
+/* QUANTITY */
+.quantity{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:15px 0;
+}
+
+.quantity button{
+  width:30px;
+  height:30px;
+  border:none;
+  background:#000;
+  color:#fff;
+  cursor:pointer;
+  border-radius:4px;
+}
+
+.quantity span{
+  font-weight:600;
+}
+
+/* BUY BOX */
+.buy-box{
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:20px;
+  height:fit-content;
+}
+
+.buy-box button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.buy-now{
+  background:#000;
+  color:#fff;
+}
+
+.add-cart{
+  background:#0ea5a4;
+  color:#fff;
+}
+
+.wishlist{
+  background:#f1f5f9;
+  border:1px solid #ddd;
+}
+
+/* RELATED */
+.related-section{
+  margin-top:60px;
+}
+
+.related-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
+}
+
+.related-card{
+  background:#fff;
+  padding:12px;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  cursor:pointer;
+  transition:0.3s;
+  text-align:center;
+}
+
+.related-card:hover{
+  transform:translateY(-5px);
+}
+
+.related-card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.star{
+  font-size:22px;
+  cursor:pointer;
+  color:#ccc;
+}
+
+.star.active{
+  color:#facc15;
+}
+
+@media (max-width:900px){
+  .product-section{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="product-section">
+
+  <!-- IMAGE -->
+  <div>
+    <div class="image-wrapper">
+      <img id="bookImage">
+    </div>
+  </div>
+
+  <!-- DETAILS -->
+  <div>
+    <div class="badge">20% OFF</div>
+
+    <h2 id="bookTitle"></h2>
+    <p id="bookAuthor" style="color:#555;margin:6px 0;"></p>
+
+    <div class="stars">★★★★★ (4.5)</div>
+
+    <div class="price">
+      ₹<span id="bookPrice"></span>
+      <span class="old-price">₹<span id="oldPrice"></span></span>
+    </div>
+
+    <div class="quantity">
+      <button onclick="decreaseQty()">-</button>
+      <span id="quantity">1</span>
+      <button onclick="increaseQty()">+</button>
+    </div>
+
+    <div class="about">
+      <h3>About this Book</h3>
+      <p id="bookDesc"></p>
+    </div>
+  </div>
+
+  <!-- BUY BOX -->
+  <div class="buy-box">
+    <button class="buy-now" onclick="buyNow()">Buy Now</button>
+    <button class="add-cart" onclick="addToCart()">Add to Cart</button>
+    <button class="wishlist" onclick="addToWishlist()">♡ Wishlist</button>
+  </div>
+
+</div>
+
+<!-- RELATED -->
+<div class="related-section">
+  <h3>Related Books</h3>
+  <div id="relatedProducts" class="related-grid"></div>
+</div>
+
+<!-- RATING -->
+<div class="rating" style="margin-top:30px;">
+  <span class="star" onclick="rate(1)">★</span>
+  <span class="star" onclick="rate(2)">★</span>
+  <span class="star" onclick="rate(3)">★</span>
+  <span class="star" onclick="rate(4)">★</span>
+  <span class="star" onclick="rate(5)">★</span>
+</div>
+
+<textarea id="reviewText" placeholder="Write review..." style="width:100%;margin-top:10px;padding:10px;"></textarea>
+<button onclick="submitReview()" style="margin-top:10px;padding:8px 15px;">Submit Review</button>
+
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<!-- Firebase Config -->
+<script src="js/firebase.js"></script>
+
+<!-- Product Logic -->
+<script src="js/product.js"></script>
+
+</body>
+</html>

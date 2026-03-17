@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login | BookMart</title>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase config -->
+  <script src="js/firebase.js"></script>
+
+  <style>
+   body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url("https://images.unsplash.com/photo-1495446815901-a7297e633e8d")
+    no-repeat center center fixed;
+  background-size:cover;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  }
+  .card{
+  background:rgba(255,255,255,0.95);
+  padding:30px;
+  width:340px;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+    .logo{
+      width:48px;height:48px;
+      background:#1f6feb;
+      color:#fff;
+      font-weight:bold;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:12px;
+      margin-bottom:10px;
+    }
+    h2{margin:10px 0}
+    p{color:#6b7280;font-size:14px}
+    input{
+      width:100%;
+      padding:12px;
+      margin:10px 0;
+      border-radius:8px;
+      border:1px solid #ddd;
+    }
+    button{
+      width:100%;
+      padding:12px;
+      background:#1f6feb;
+      color:white;
+      border:none;
+      border-radius:8px;
+      font-size:15px;
+      cursor:pointer;
+    }
+    .link{
+      text-align:center;
+      margin-top:12px;
+      font-size:14px;
+    }
+    a{color:#1f6feb;text-decoration:none}
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="logo">BM</div>
+  <h2>Welcome back</h2>
+  <p>Login to your BookMart account</p>
+
+  <!-- IMPORTANT IDs -->
+  <input id="loginEmail" type="email" placeholder="Email">
+  <input id="loginPassword" type="password" placeholder="Password">
+
+  <!-- IMPORTANT onclick -->
+  <button onclick="login()">Login</button>
+
+  <div class="link">
+    Don’t have an account?
+    <a href="register.html">Register</a>
+  </div>
+</div>
+
+<!-- Auth logic -->
+<script src="js/auth.js"></script>
+
+</body>
+</html>

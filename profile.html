@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Profile | BookMart</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:"Segoe UI",sans-serif;
+
+background:
+linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+url("https://images.unsplash.com/photo-1495446815901-a7297e633e8d")
+no-repeat center center fixed;
+
+background-size:cover;
+color:#e5e7eb;
+}
+
+
+/* LAYOUT */
+
+.profile-layout{
+max-width:1300px;
+margin:40px auto;
+display:grid;
+grid-template-columns:300px 1fr;
+gap:40px;
+}
+
+
+/* CARDS */
+
+.card{
+padding:25px;
+border-radius:18px;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(10px);
+}
+
+
+/* LEFT */
+
+.left-side{
+display:flex;
+flex-direction:column;
+gap:25px;
+}
+
+.profile-card{
+text-align:center;
+}
+
+.profile-icon{
+width:120px;
+height:120px;
+border-radius:50%;
+overflow:hidden;
+margin:auto;
+}
+
+.profile-icon img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+
+/* MENU */
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:15px;
+}
+
+.menu-btn{
+
+padding:12px;
+border:none;
+border-radius:10px;
+
+background:rgba(255,255,255,0.08);
+color:#e5e7eb;
+
+cursor:pointer;
+
+transition:0.3s;
+
+}
+
+.menu-btn:hover{
+background:#3b82f6;
+color:white;
+}
+
+
+/* RIGHT */
+
+.right-side{
+display:flex;
+flex-direction:column;
+gap:25px;
+}
+
+
+/* DASHBOARD */
+
+.dashboard-grid{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:25px;
+
+}
+
+
+/* BOOKS */
+
+.books-section{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+
+gap:20px;
+
+margin-top:10px;
+
+}
+
+.book-card{
+
+background:rgba(255,255,255,0.06);
+
+border-radius:14px;
+
+overflow:hidden;
+
+transition:0.3s;
+
+}
+
+.book-card:hover{
+
+transform:translateY(-5px);
+
+}
+
+.book-card img{
+
+width:100%;
+height:200px;
+object-fit:cover;
+
+}
+
+.book-info{
+
+padding:12px;
+
+}
+
+.book-title{
+
+font-weight:600;
+
+}
+
+.book-price{
+
+margin-top:6px;
+
+color:#60a5fa;
+
+}
+
+
+/* SECTION HIDE */
+
+.section{
+
+display:none;
+
+}
+
+
+@media(max-width:900px){
+
+.profile-layout{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<main class="profile-layout">
+
+
+<!-- LEFT SIDE -->
+
+<section class="left-side">
+
+
+<div class="card profile-card">
+
+<div class="profile-icon">
+
+<img src="/mnt/data/27bae883-1792-4b14-936a-d9b8e1e2f03d.png">
+
+</div>
+
+<h3>maheshmurugan2303</h3>
+
+<p style="opacity:0.7">maheshmurugan2303@gmail.com</p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Account Menu</h3>
+
+<div class="menu">
+
+<button class="menu-btn" onclick="showSection('dashboard')">Dashboard</button>
+
+<button class="menu-btn" onclick="showSection('account')">Account Info</button>
+
+<button class="menu-btn" onclick="showSection('sold')">Sold Items</button>
+
+<button class="menu-btn" onclick="showSection('bought')">Bought Items</button>
+
+<button class="menu-btn" onclick="showSection('manage')">Manage Account</button>
+
+</div>
+
+</div>
+
+
+</section>
+
+
+
+<!-- RIGHT -->
+
+<section class="right-side">
+
+
+<!-- DASHBOARD -->
+
+<div id="dashboard">
+
+<div class="dashboard-grid">
+
+
+<div class="card">
+
+<h3>Favourite Books</h3>
+
+<div class="books-section">
+
+<div class="book-card">
+
+<img src="https://covers.openlibrary.org/b/isbn/9780062315007-L.jpg">
+
+<div class="book-info">
+
+<div class="book-title">The Alchemist</div>
+
+<div class="book-price">₹120</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Best Selling Book</h3>
+
+<div class="book-card">
+
+<img src="https://covers.openlibrary.org/b/isbn/9780743273565-L.jpg">
+
+<div class="book-info">
+
+<div class="book-title">The Great Gatsby</div>
+
+<div class="book-price">₹150</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<!-- ACCOUNT -->
+
+<div id="account" class="card section">
+
+<h2>Account Information</h2>
+
+<p><b>Username:</b> maheshmurugan2303</p>
+
+<p><b>Email:</b> maheshmurugan2303@gmail.com</p>
+
+<p><b>Member Since:</b> 2025</p>
+
+</div>
+
+
+
+<!-- SOLD ITEMS -->
+
+<div id="sold" class="section">
+
+<h2>Books You Sold</h2>
+
+<div id="soldBooks" class="books-section"></div>
+
+</div>
+
+
+
+<!-- BOUGHT ITEMS -->
+
+<div id="bought" class="section">
+
+<h2>Books You Bought</h2>
+
+<div id="boughtBooks" class="books-section"></div>
+
+</div>
+
+
+
+<!-- MANAGE -->
+
+<div id="manage" class="card section">
+
+<h2>Manage Account</h2>
+
+<button style="padding:10px;border:none;border-radius:8px;background:#3b82f6;color:white;">
+Edit Profile
+</button>
+
+<br><br>
+
+<button style="padding:10px;border:none;border-radius:8px;background:#ef4444;color:white;">
+Delete Account
+</button>
+
+</div>
+
+
+</section>
+
+</main>
+
+
+
+<script>
+
+
+function showSection(section){
+
+const sections=['dashboard','account','sold','bought','manage'];
+
+sections.forEach(id=>{
+let el=document.getElementById(id);
+if(el) el.style.display="none";
+});
+
+document.getElementById(section).style.display="block";
+
+}
+
+
+
+/* DYNAMIC BOOK DISPLAY */
+
+let soldBooks=[];
+let boughtBooks=[];
+
+
+function renderBooks(){
+
+let soldContainer=document.getElementById("soldBooks");
+
+let boughtContainer=document.getElementById("boughtBooks");
+
+soldContainer.innerHTML="";
+boughtContainer.innerHTML="";
+
+
+if(soldBooks.length===0){
+
+soldContainer.innerHTML="<p>No books sold yet.</p>";
+
+}else{
+
+soldBooks.forEach(book=>{
+
+soldContainer.innerHTML+=book;
+
+});
+
+}
+
+
+if(boughtBooks.length===0){
+
+boughtContainer.innerHTML="<p>No books purchased yet.</p>";
+
+}else{
+
+boughtBooks.forEach(book=>{
+
+boughtContainer.innerHTML+=book;
+
+});
+
+}
+
+}
+
+
+renderBooks();
+
+
+</script>
+
+
+</body>
+</html>
