@@ -17,6 +17,9 @@ if (!id) {
 }
 
 // Load product
+import { db } from "./firebase.js"; // 🔥 IMPORTANT
+
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 db.collection(source).doc(id).get().then((doc) => {
   if (doc.exists) {
     const book = doc.data();

@@ -1,3 +1,6 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAKRnRNofQrNS-18mOeNKmt17TkFD1iRdI",
   authDomain: "bookmart-b8a2e.firebaseapp.com",
